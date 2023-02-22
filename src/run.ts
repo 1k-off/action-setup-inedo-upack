@@ -2,14 +2,20 @@ import * as path from "path";
 import * as core from "@actions/core";
 import * as toolCache from "@actions/tool-cache";
 import * as util from "util";
-import { getDownloadUrl, getExecutableExtension } from "./helpers";
+import {
+  getDownloadUrl,
+  getExecutableExtension,
+  getlatestVersion,
+} from "./helpers";
 import * as fs from "fs";
 
 let upackToolName = "upack";
 
 export async function run() {
-  const version = "3.1.1";
-  const cachedPath = await downloadUpack(version);
+  let token = core.getInput("github_token", { required: true });
+  let version = await getlatestVersion(token);
+
+  const cachedPath = await downloadUpack(version, token);
 
   core.addPath(path.dirname(cachedPath));
 
@@ -19,7 +25,10 @@ export async function run() {
   core.setOutput("upack-path", cachedPath);
 }
 
-export async function downloadUpack(version: string): Promise<string> {
+export async function downloadUpack(
+  version: string,
+  token: string
+): Promise<string> {
   let downloadPath = "";
   let extractPath = "";
 
@@ -27,7 +36,8 @@ export async function downloadUpack(version: string): Promise<string> {
 
   if (!cachedToolpath) {
     try {
-      downloadPath = await toolCache.downloadTool(getDownloadUrl());
+      let url = await getDownloadUrl(token);
+      downloadPath = await toolCache.downloadTool(url);
       extractPath = await toolCache.extractZip(downloadPath);
     } catch (exception) {
       if (
