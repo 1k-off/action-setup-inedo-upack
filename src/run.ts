@@ -36,7 +36,7 @@ export async function downloadUpack(
 
   if (!cachedToolpath) {
     try {
-      let url = await getDownloadUrl(token);
+      let url = await getDownloadUrl(version);
       downloadPath = await toolCache.downloadTool(url);
       extractPath = await toolCache.extractZip(downloadPath);
     } catch (exception) {
