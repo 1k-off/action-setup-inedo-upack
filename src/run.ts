@@ -9,7 +9,7 @@ let upackToolName = "upack";
 
 export async function run() {
   const version = "3.1.1";
-  let token = core.getInput('github_token', {required: true})
+  let token = core.getInput("github_token", { required: true });
   const cachedPath = await downloadUpack(version, token);
 
   core.addPath(path.dirname(cachedPath));
@@ -20,7 +20,10 @@ export async function run() {
   core.setOutput("upack-path", cachedPath);
 }
 
-export async function downloadUpack(version: string, token: string): Promise<string> {
+export async function downloadUpack(
+  version: string,
+  token: string
+): Promise<string> {
   let downloadPath = "";
   let extractPath = "";
 

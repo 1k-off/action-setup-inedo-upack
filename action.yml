@@ -2,7 +2,7 @@ name: "Indeo upack setup"
 description: "Install latest version of upack binary."
 inputs:
   github_token:
-    description: 'Github token'
+    description: "Github token"
     required: true
 outputs:
   upack-path:
