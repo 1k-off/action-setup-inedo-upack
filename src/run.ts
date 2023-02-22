@@ -2,14 +2,19 @@ import * as path from "path";
 import * as core from "@actions/core";
 import * as toolCache from "@actions/tool-cache";
 import * as util from "util";
-import { getDownloadUrl, getExecutableExtension } from "./helpers";
+import {
+  getDownloadUrl,
+  getExecutableExtension,
+  getlatestVersion,
+} from "./helpers";
 import * as fs from "fs";
 
 let upackToolName = "upack";
 
 export async function run() {
-  const version = "3.1.1";
   let token = core.getInput("github_token", { required: true });
+  let version = await getlatestVersion(token);
+
   const cachedPath = await downloadUpack(version, token);
 
   core.addPath(path.dirname(cachedPath));
