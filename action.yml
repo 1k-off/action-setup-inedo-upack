@@ -1,0 +1,11 @@
+name: "Indeo upack setup"
+description: "Install latest version of upack binary."
+outputs:
+  upack-path:
+    description: "Path to the upack binary"
+branding:
+  icon: "package"
+  color: "gray-dark"
+runs:
+  using: "node16"
+  main: "lib/index.js"

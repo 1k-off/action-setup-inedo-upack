@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - run: npm ci
+      - run: npm run format
+      - run: npm run build
+
+      - name: Commit
+        run: |-
+          git config --global user.name "actions"
+          git config user.email 'actions@1node.xyz'
+          git add lib/
+          git commit -m "Added lib" 
+          git push
