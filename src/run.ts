@@ -37,8 +37,17 @@ export async function downloadUpack(
   if (!cachedToolpath) {
     try {
       let url = await getDownloadUrl(version);
+      core.debug(
+        `Download URL: ${url}`
+      );
       downloadPath = await toolCache.downloadTool(url);
+      core.debug(
+        `Download path: ${downloadPath}`
+      );
       extractPath = await toolCache.extractZip(downloadPath);
+      core.debug(
+        `Extract path: ${extractPath}`
+      );
     } catch (exception) {
       if (
         exception instanceof toolCache.HTTPError &&
